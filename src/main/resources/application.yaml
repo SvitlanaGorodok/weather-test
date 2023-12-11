@@ -1,0 +1,30 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: weather-service
+  datasource:
+    hikari:
+      leak-detection-threshold: 30000
+    url: jdbc:postgresql://localhost:${POSTGRES_PORT:5432}/${DB_NAME:weather}
+    username: ${POSTGRES_DB_USER:postgres}
+    password: ${POSTGRES_DB_USER_PASS:12345}
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    enabled: true
+
+server:
+  port: 8081
+
+logging:
+  level:
+    root: INFO
+

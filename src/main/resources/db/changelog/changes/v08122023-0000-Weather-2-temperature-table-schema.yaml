@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - preConditions:
+      - or:
+          - dbms:
+              type: postgresql
+          - dbms:
+              type: h2
+  - changeSet:
+      id: "v08122023-0000-Weather-2-temperature-table-schema"
+      author: "Svitlana Gorodok"
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: temperature
+      changes:
+        - createTable:
+              tableName: temperature
+              columns:
+                - column:
+                    name: id
+                    type: bigserial
+                    constraints:
+                      primaryKey: true
+                - column:
+                    name: data
+                    type: numeric (3,1)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: weather_data_id
+                    type: bigint
+                    constraints:
+                      foreignKeyName: fk_weather_data_id
+                      references: weather_data(id)
+                      nullable: false
+                - column:
+                    name: version
+                    type: int
+                    defaultValue: 0
+                - column:
+                    name: created
+                    type: timestamp
+                    defaultValueDate: current_timestamp
+                    constraints:
+                      nullable: false
+                      updatable: false
+                - column:
+                    name: updated
+                    type: timestamp
+                    defaultValueDate: current_timestamp
+                    constraints:
+                      nullable: false

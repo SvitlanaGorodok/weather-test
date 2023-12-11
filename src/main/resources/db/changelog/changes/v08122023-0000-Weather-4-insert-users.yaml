@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - preConditions:
+      - or:
+          - dbms:
+              type: postgresql
+          - dbms:
+              type: h2
+  - changeSet:
+      id: "v08122023-0000-Weather-4-insert-users"
+      author: "Svitlana Gorodok"
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT COUNT(*) FROM users
+      changes:
+        - sql:
+            INSERT INTO users (login, password, role)
+            VALUES ('user1','$2a$12$Tg.h37p1b8uLXXxlV9BbPePK7yTEdo11KScbKFpw6O5B3/Ii8nwaO','ROLE_EDITOR'), 
+            ('user2','$2a$12$Tg.h37p1b8uLXXxlV9BbPePK7yTEdo11KScbKFpw6O5B3/Ii8nwaO','ROLE_VIEWER');
+

@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - preConditions:
+      - or:
+          - dbms:
+              type: postgresql
+          - dbms:
+              type: h2
+  - changeSet:
+      id: "v08122023-0000-Weather-3-users-table-schema"
+      author: "Svitlana Gorodok"
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: users
+      changes:
+        - createTable:
+              tableName: users
+              columns:
+                - column:
+                    name: id
+                    type: bigserial
+                    constraints:
+                      primaryKey: true
+                - column:
+                    name: login
+                    type: varchar (20)
+                    constraints:
+                      nullable: false
+                      unique: true
+                - column:
+                    name: password
+                    type: varchar (100)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: role
+                    type: varchar (20)
+                    constraints:
+                      nullable: false
+                - column:
+                    name: version
+                    type: int
+                    defaultValue: 0
+                - column:
+                    name: created
+                    type: timestamp
+                    defaultValueDate: current_timestamp
+                    constraints:
+                      nullable: false
+                      updatable: false
+                - column:
+                    name: updated
+                    type: timestamp
+                    defaultValueDate: current_timestamp
+                    constraints:
+                      nullable: false

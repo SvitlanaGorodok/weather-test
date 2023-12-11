@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - preConditions:
+      - or:
+          - dbms:
+              type: postgresql
+          - dbms:
+              type: h2
+  - changeSet:
+      id: "v08122023-0000-Weather-1-weather-data-table-schema"
+      author: "Svitlana Gorodok"
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: weather_data
+      changes:
+        - createTable:
+            tableName: weather_data
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lat
+                  type: numeric (10,4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lon
+                  type: numeric (10,4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city
+                  type: character varying(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: state
+                  type: character varying(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: version
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValueDate: current_timestamp
+                  constraints:
+                    nullable: false
+                    updatable: false
+              - column:
+                  name: updated
+                  type: timestamp
+                  defaultValueDate: current_timestamp
+                  constraints:
+                    nullable: false
